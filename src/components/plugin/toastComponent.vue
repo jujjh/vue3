@@ -50,7 +50,7 @@ const show = () => {
         icon: props.icon
     })
 
-    // 표시 시간이 지나면 자동으로 메시지 삭제
+    // 표시 시간이 지나면 자동으로 메시지 삭제 
     timeout.value.push(setTimeout(() => {
         hide(0)
     }, props.delay))
