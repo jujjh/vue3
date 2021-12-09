@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
+    {path: '/part0', name: 'test', component: () => import('@/views/part0/index')},
+
     {path: '/part1', name: 'home', component: () => import('@/views/part1/index')},
     {path: '/part1/setup', name: 'setup', component: () => import('@/views/part1/setup')},
 
