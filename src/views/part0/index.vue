@@ -1,37 +1,50 @@
 <template>
     <h2>계산기</h2>
 
-    <div class="small">{{calcNum2}}</div>
-
-    <div class="calc">
-        <div class="input">
-            {{calcNum}}
-        </div>
-        <div class="btnWrap">
-            
-            <div class="calcBtn col2" @click.prevent="ac">AC</div>
-            <div class="calcBtn" @click.prevent="percent">%</div>
-            <div class="calcBtn" @click.prevent="calculation('division')">÷</div>
-            <div class="numberBtnWrap">
-                <template v-for="(item, index) in numBtn" :key="index">
-                <div class="calcBtn" :class="{'col2': item == 0}" @click.prevent="numClick(item)" >{{item}}</div>
-                </template>
-                <div class="calcBtn" @click.prevent="decimal">.</div>
+    <div class="layout">
+        <div class="calc">
+            <div class="input">
+                <div class="small">{{calcMemoListText}}</div>
+                {{calcNum}}
             </div>
-            <div class="rightBtn">
-                <div class="calcBtn" @click.prevent="calculation('multiply')">x</div>
-                <div class="calcBtn" @click.prevent="calculation('subtract')">-</div>
-                <div class="calcBtn" @click.prevent="calculation('plus')">+</div>
-                <div class="calcBtn" @click.prevent="result">=</div>
+            <div class="btnWrap">
+                
+                <div class="calcBtn" @click.prevent="ac">AC</div>
+                <div class="calcBtn" @click.prevent="negative">+/-</div>
+                <div class="calcBtn" @click.prevent="percent">%</div>
+                <div class="calcBtn" @click.prevent="calculation('/')">÷</div>
+                <div class="numberBtnWrap">
+                    <template v-for="(item, index) in numBtn" :key="index">
+                    <div class="calcBtn" :class="{'col2': item == 0}" @click.prevent="numClick(item)" >{{item}}</div>
+                    </template>
+                    <div class="calcBtn" @click.prevent="decimal">.</div>
+                </div>
+                <div class="rightBtn">
+                    <div class="calcBtn" @click.prevent="calculation('*')">x</div>
+                    <div class="calcBtn" @click.prevent="calculation('-')">-</div>
+                    <div class="calcBtn" @click.prevent="calculation('+')">+</div>
+                    <div class="calcBtn" @click.prevent="result">=</div>
 
+                </div>
+            </div>
+        </div>
+        <div class="calcMemo">
+            <h3>기록</h3>
+            <div class="list" v-if="calcMemoList.values.length > 0">
+                <template v-for="item in calcMemoList" :key="item">
+                <div>{{item}}</div>
+                </template>
+            </div>
+            <div class="list" v-else>
+                기록이 없습니다.
             </div>
         </div>
     </div>
+    <div class="small">{{calcNum2}}</div>
 
 </template>
 <script setup>
-import { ref } from 'vue'
-
+import { reactive, ref } from 'vue'
 
 let numBtn = ref([]);
 for(let i = 9; i >= 0; i--){
@@ -42,14 +55,16 @@ let calcNum = ref('0');
 let calcNum2 = ref('');
 let calcBtn = false;
 let calcBtnVal = '';
+let calcMemoListText = ref('');
+
+let calcMemoList = ref([]);
 
 const numClick = (e) => {
-    if (calcBtn){
-        calcNum2.value += ''+e
+    if(calcNum.value == '0'){
+        calcNum.value = e;
     } else{
-        if(calcNum.value == '0'){
-            calcNum.value = e;
-            
+        if(calcBtn){
+            calcNum2.value += ''+e
         } else{
             calcNum.value += ''+e
         }
@@ -57,23 +72,32 @@ const numClick = (e) => {
 }
 
 const calculation = (e) =>{
-    calcBtn = true;
-    calcBtnVal = e;
+    if(calcBtn){
+        result();
+    } else{
+        calcBtn = true;
+        calcBtnVal = e;
+        calcMemoListText.value = `${calcNum.value}${e}`;         
+    }
 }
 
 const result = () =>{
-    if(calcBtnVal == 'plus'){
+    if(calcBtnVal == '+'){
         calcNum.value = Number(calcNum.value) + Number(calcNum2.value);
-    } else if (calcBtnVal == 'subtract'){
+    } else if (calcBtnVal == '-'){
         calcNum.value = Number(calcNum.value) - Number(calcNum2.value);
-    } else if (calcBtnVal == 'multiply'){
+    } else if (calcBtnVal == '*'){
         calcNum.value = Number(calcNum.value) * Number(calcNum2.value);
-    } else if (calcBtnVal == 'division'){
+    } else if (calcBtnVal == '/'){
         calcNum.value = Number(calcNum.value) / Number(calcNum2.value);
     }
+    calcMemoListText.value += calcNum2.value + '=';
+    calcMemoList.values.push({text: calcMemoListText.value, result: calcNum.value})
     calcNum2.value = 0;
     calcBtn = false;
     calcBtnVal = ''
+
+
 }
 
 const decimal = () => {
@@ -84,20 +108,30 @@ const decimal = () => {
     }
 }
 
+const negative = () =>{
+    calcNum.value = Number(calcNum.value) * -1;
+}
+
 const percent = () => {
-    calcNum.value = Number(calcNum.value) * Number(0.01);
+    calcNum.value = Number(calcNum.value) / Number(100);
 }
 
 const ac = () =>{
     calcNum.value = 0;
+    calcNum2.value = 0;
+    calcBtn = false;
+    calcBtnVal = '';
+    calcMemoListText.value = '';
 }
 
 </script>
 
 <style>
+.layout {display:flex;}
 .calc {background: #eee; padding:20px; width:270px; border-radius: 20px;}
 .calc .input {width:100%; padding:0 5px; margin-bottom:5px;
-border-radius: 5px; text-align: right; line-height: 2.3; color:#888; font-size:25px; font-weight: bold;}
+border-radius: 5px; text-align: right; line-height: 2.3; color:#888; font-size:25px; font-weight: bold;  height:70px;}
+.calc .input .small {font-size:17px; line-height: 1; font-weight: normal; height:20px;}
 .calc .btnWrap { display: flex; flex-wrap:wrap; justify-content: space-between;}
 .calc .numberBtnWrap { display: flex; flex-wrap:wrap; justify-content: space-between; width:170px}
 .calc .rightBtn {display: flex; flex-direction: column;}
@@ -108,4 +142,7 @@ border-radius: 5px; text-align: right; line-height: 2.3; color:#888; font-size:2
     border-radius: 56px;
     cursor: pointer; color:#888; font-size:20px;}
 .calc .calcBtn.col2 {width:110px;}
+.calcMemo {width:400px; margin-left:10px; background:#f1f1f1; padding: 20px; border-radius: 20px;}
+.calcMemo h3 { font-size:20px; color:#aaa; font-weight: bold; border-bottom:1px solid #ddd; padding-bottom: 10px;}
+.calcMemo {}
 </style>
