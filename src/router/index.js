@@ -1,21 +1,28 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
-    {path: '/part1', name: 'home', component: () => import('@/views/part1/index')},
+    {path: '/part0',      name: 'calc', component: () => import('@/views/part0/index')},
+    {path: '/part0/todo', name: 'todo', component: () => import('@/views/part0/todo')},
+
+    {path: '/part1',       name: 'home', component: () => import('@/views/part1/index')},
     {path: '/part1/setup', name: 'setup', component: () => import('@/views/part1/setup')},
 
-    {path: '/part2', name: 'part2', component: () => import('@/views/part2/index')},
+    {path: '/part2',           name: 'part2', component: () => import('@/views/part2/index')},
     {path: '/part2/variables', name: 'variables', component: () => import('@/views/part2/variables')},
 
-    {path: '/part3/plugin', name: 'part3/plugin', component: () => import('@/views/part3/plugin')},
-    {path: '/part3/component', name: 'part3/component', component: () => import('@/views/part3/component')},
-    {path: '/part3/slot', name: 'part3/slot', component: () => import('@/views/part3/slot')},
+    {path: '/part3/plugin',              name: 'part3/plugin', component: () => import('@/views/part3/plugin')},
+    {path: '/part3/component',           name: 'part3/component', component: () => import('@/views/part3/component')},
+    {path: '/part3/slot',                name: 'part3/slot', component: () => import('@/views/part3/slot')},
     {path: '/part3/pluginWithComponent', name: 'part3/pluginWithComponent', component: () => import('@/views/part3/pluginWithComponent')},
 
-    {path: '/part4/component', name: 'part4/component', component: () => import('@/views/part4/component')},
+    {path: '/part4/component',  name: 'part4/component', component: () => import('@/views/part4/component')},
     {path: '/part4/transition', name: 'part4/transition', component: () => import('@/views/part4/transition')},
     {path: '/part4/gameLayout', name: 'part4/gameLayout', component: () => import('@/views/part4/gameLayout')},
-    {path: '/part4/game', name: 'part4/game', component: () => import('@/views/part4/game')},
+    {path: '/part4/game',       name: 'part4/game', component: () => import('@/views/part4/game')},
+
+    {path: '/ex/todo',       name: 'ex/todo', component: () => import('@/views/ex/todo')},
+    {path: '/ex/board/list',       name: 'ex/board/list', component: () => import('@/views/ex/board/list')},
+    {path: '/ex/board/write',       name: 'ex/board/write', component: () => import('@/views/ex/board/write')},
 ]
 
 const router = createRouter({
