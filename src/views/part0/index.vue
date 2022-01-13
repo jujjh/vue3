@@ -92,7 +92,7 @@ const result = () =>{
         calcNum.value = Number(calcNum.value) / Number(calcNum2.value);
     }
     calcMemoListText.value += calcNum2.value + '=';
-    calcMemoList.values.push({text: calcMemoListText.value, result: calcNum.value})
+    //calcMemoList.values.push({text: calcMemoListText.value, result: calcNum.value})
     calcNum2.value = 0;
     calcBtn = false;
     calcBtnVal = ''
@@ -128,7 +128,7 @@ const ac = () =>{
 
 <style>
 .layout {display:flex;}
-.calc {background: #eee; padding:20px; width:270px; border-radius: 20px;}
+.calc {background: rgb(243, 243, 243); padding:20px; width:270px; border-radius: 20px; position:relative; z-index: 10;}
 .calc .input {width:100%; padding:0 5px; margin-bottom:5px;
 border-radius: 5px; text-align: right; line-height: 2.3; color:#888; font-size:25px; font-weight: bold;  height:70px;}
 .calc .input .small {font-size:17px; line-height: 1; font-weight: normal; height:20px;}

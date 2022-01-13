@@ -19,6 +19,10 @@ const routes = [
     {path: '/part4/transition', name: 'part4/transition', component: () => import('@/views/part4/transition')},
     {path: '/part4/gameLayout', name: 'part4/gameLayout', component: () => import('@/views/part4/gameLayout')},
     {path: '/part4/game',       name: 'part4/game', component: () => import('@/views/part4/game')},
+
+    {path: '/ex/todo',       name: 'ex/todo', component: () => import('@/views/ex/todo')},
+    {path: '/ex/board/list',       name: 'ex/board/list', component: () => import('@/views/ex/board/list')},
+    {path: '/ex/board/write',       name: 'ex/board/write', component: () => import('@/views/ex/board/write')},
 ]
 
 const router = createRouter({
